@@ -103,15 +103,39 @@ const validateKey = (req: any, res: any, next: any) => {
 };
 
 // --- WEB DASHBOARD ROUTE ---
-// Serve the main HTML file
+// Serve the main HTML file with embedded config
 app.get('/', (req, res) => {
-    res.sendFile(path.join(publicPath, 'index.html'));
+    // Read the HTML file and inject configuration
+    const htmlPath = path.join(publicPath, 'index.html');
+    let html = fs.readFileSync(htmlPath, 'utf-8');
+    
+    // Escape values to prevent XSS
+    const escapeJson = (str: string) => {
+        return str.replace(/\\/g, '\\\\')
+                  .replace(/"/g, '\\"')
+                  .replace(/\n/g, '\\n')
+                  .replace(/\r/g, '\\r')
+                  .replace(/\t/g, '\\t');
+    };
+    
+    // Inject configuration as a script tag before closing head
+    const configScript = `
+    <script>
+        window.APP_CONFIG = {
+            apiKey: "${escapeJson(API_KEY)}",
+            serverIp: "${escapeJson(SERVER_IP)}",
+            port: ${port}
+        };
+    </script>
+    `;
+    html = html.replace('</head>', configScript + '</head>');
+    
+    res.send(html);
 });
 
-// API endpoint to get configuration for frontend
-app.get('/api/config', (req, res) => {
+// API endpoint to get non-sensitive configuration for frontend (protected)
+app.get('/api/config', validateKey, (req, res) => {
     res.json({ 
-        apiKey: API_KEY, 
         serverIp: SERVER_IP, 
         port: port 
     });
