@@ -1,0 +1,86 @@
+/**
+ * WhatsApp API Dashboard - Custom Styles
+ */
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #f8fafc;
+}
+
+/* Smooth animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.animate-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.zoom-in-95 {
+    animation: zoomIn 0.3s ease-out;
+}
+
+/* Custom scrollbar for code blocks */
+.bg-black\/40::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.bg-black\/40::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.bg-black\/40::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.bg-black\/40::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .max-w-6xl {
+        padding: 0 1rem;
+    }
+    
+    #docs-panel {
+        min-height: 400px;
+    }
+}
+
+/* Loading states */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Button hover effects */
+button:active {
+    transform: scale(0.98);
+}
+
+/* Session card hover effect */
+.group:hover {
+    transform: translateY(-2px);
+}
